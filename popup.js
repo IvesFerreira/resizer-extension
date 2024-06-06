@@ -1,13 +1,21 @@
 document.getElementById('save').addEventListener('click', () => {
+    saveWindowSize();
+});
+
+document.getElementById('resize').addEventListener('click', () => {
+    resizeToSavedSize();
+});
+
+function saveWindowSize() {
     chrome.windows.getCurrent((win) => {
         const size = { width: win.width, height: win.height };
         chrome.storage.local.set({ windowSize: size }, () => {
             alert('Window size saved!');
         });
     });
-});
+}
 
-document.getElementById('resize').addEventListener('click', () => {
+function resizeToSavedSize() {
     chrome.storage.local.get('windowSize', (data) => {
         if (data.windowSize) {
             chrome.windows.getCurrent((win) => {
@@ -20,4 +28,4 @@ document.getElementById('resize').addEventListener('click', () => {
             alert('No size saved!');
         }
     });
-});
+}
